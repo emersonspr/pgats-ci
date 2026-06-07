@@ -1,0 +1,47 @@
+# nome da pipeline
+name: 'Execução Manual'
+
+# gatilhos / triggers - regras de disparo
+# gatilho manual = workflow_dispatch
+
+on:
+  workflow_dispatch:
+
+  #tarefas dentro da pipeline = jobs
+
+  jobs:
+
+    #nome do job
+    e2e-tests:
+
+      #definir o ambiente de execução do job
+      runs-on: ubuntu-latest
+
+      #definir as etapas do job
+      steps:
+
+        #primeira etapa - checkout do código
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        #segunda etapa - configuração do ambiente
+        - name: Set up Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 24.x
+
+        # instalação do Yarn     
+        - name: Instalando Yarn
+          run: npm install -g yarn
+
+        #instalação das dependências
+        - name: Instalando dependencies
+          run: yarn
+
+        #instalação Browsers Playwright
+        - name: Instalando Playwright
+          run: yarn playwright install
+          
+        #quarta etapa - execução dos testes e2e
+        - name: Run E2E tests
+          run: yarn run test:e2e
