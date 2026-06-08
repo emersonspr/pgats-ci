@@ -1,43 +1,48 @@
 # CI de Nível 01 - Disparo Manual através de clique 
-
 # nome da pipeline
-name: 'Execução Manual' 
+name: 'Execução Manual'
 
-# gatilhos/ triggers - Regras de Disparo
-# gatilho manual = workflow dispatch
+# gatilhos / triggers - regras de disparo
+# gatilho manual = workflow_dispatch
 
 on:
-workflow dispatch:
+    workflow_dispatch:
 
-# Tarefas dentro da Pipeline
+#tarefas dentro da pipeline = jobs
+
 jobs:
-#nome do job
-e2e-tests:
-#maquina onde o job vai rodar
-runs-on: ubuntu-latest
 
-#passos do job
-steps:
-#clone do projeto
-- uses: actions/checkout@v4
+  #nome do job
+  e2e-tests:
 
-#instalção do node
-- uses: actions/setup-node@v4
-with:
-node-version: 24.x
+    #definir o ambiente de execução do job
+    runs-on: ubuntu-latest
 
-#instalação do yarn
--name: Instalando yarn
-run: npm install -g yarn
+    #definir as etapas do job
+    steps:
 
-# Instalando dependências
--name: Instalando dependências
-run: yarn
+      #primeira etapa - checkout do código
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-# instalação dos browser do Playwright
--name: Instalando browser do Playwright
-run: yarn playwright install
+      #segunda etapa - configuração do ambiente
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
 
-# execução dos testes e2e
--name: Executando os testes e2e
-run: yarn run e2e
+      # instalação do Yarn     
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      #instalação das dependências
+      - name: Instalando dependencies
+        run: yarn
+
+      #instalação Browsers Playwright
+      - name: Instalando Playwright
+        run: yarn playwright install
+        
+      #quarta etapa - execução dos testes e2e
+      - name: Run E2E tests
+        run: yarn run test:e2e
