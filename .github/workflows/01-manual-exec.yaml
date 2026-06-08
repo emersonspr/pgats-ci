@@ -1,4 +1,4 @@
-# CI de Nível 01 - Disparo Manual através de clique 
+# CI de Nível 01 - Disparo Manual através de clique
 # nome da pipeline
 name: 'Execução Manual'
 
@@ -6,21 +6,18 @@ name: 'Execução Manual'
 # gatilho manual = workflow_dispatch
 
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 
 #tarefas dentro da pipeline = jobs
 
 jobs:
-
   #nome do job
   e2e-tests:
-
     #definir o ambiente de execução do job
     runs-on: ubuntu-latest
 
     #definir as etapas do job
     steps:
-
       #primeira etapa - checkout do código
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,7 +28,7 @@ jobs:
         with:
           node-version: 24.x
 
-      # instalação do Yarn     
+      # instalação do Yarn
       - name: Instalando Yarn
         run: npm install -g yarn
 
@@ -42,7 +39,7 @@ jobs:
       #instalação Browsers Playwright
       - name: Instalando Playwright
         run: yarn playwright install
-        
+
       #quarta etapa - execução dos testes e2e
       - name: Run E2E tests
         run: yarn run e2e
