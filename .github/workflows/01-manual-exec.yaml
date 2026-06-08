@@ -45,4 +45,4 @@ jobs:
         
       #quarta etapa - execução dos testes e2e
       - name: Run E2E tests
-        run: yarn run test:e2e
+        run: yarn run e2e
